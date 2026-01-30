@@ -25,6 +25,10 @@ class BuyOneGetSecondHalfPriceOffer implements OfferInterface
         $count = $matchingItems->count();
         $pairs = intdiv($count, 2);
 
+        if ($pairs === 0) {
+            return 0.0;
+        }
+
         $price = $this->getProductPrice($matchingItems->first());
         
         return round($pairs * ($price / 2), 2);
