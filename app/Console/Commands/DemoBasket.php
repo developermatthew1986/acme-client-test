@@ -21,7 +21,7 @@ class DemoBasket extends Command
     // Define special offers
     protected $offers = [];
 
-    protected $expectedTotals = [37.85];
+    protected $expectedTotals = [37.85,54.37];
 
     public function handle()
     {
@@ -35,6 +35,7 @@ class DemoBasket extends Command
         // Test cases
         $testCases = [
             ['B01', 'G01'],
+            ['R01', 'R01'],
         ];
 
         
