@@ -50,7 +50,7 @@ class DemoBasket extends Command
     protected function calculate($products,$items,$expected) {
         $basket = new BasketService($products, $this->deliveryRules, $this->offers);
 
-        $this->info("Test Case " . implode(', ', $items));
+        $this->info("Test Case for " . implode(', ', $items));
         $this->line("--------------------------------------------------");
         $this->newLine();
         foreach ($items as $code) {
@@ -79,7 +79,7 @@ class DemoBasket extends Command
         } else {
             $this->error("  ✗ FAIL");
         }
-
+        
         $this->newLine();
     }
 }
