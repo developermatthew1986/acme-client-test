@@ -43,14 +43,14 @@ class DemoBasket extends Command
         
 
         foreach ($testCases as $index => $items) {
-            $this->calculate($products,$items,$this->expectedTotals[$index]);
+            $this->calculate($products,$items,$this->expectedTotals[$index], $index);
         }                
     }
 
-    protected function calculate($products,$items,$expected) {
+    protected function calculate($products,$items,$expected, $index) {
         $basket = new BasketService($products, $this->deliveryRules, $this->offers);
 
-        $this->info("Test Case for " . implode(', ', $items));
+        $this->info("Test Case " . ($index + 1) . ": " . implode(', ', $items));
         $this->line("--------------------------------------------------");
         $this->newLine();
         foreach ($items as $code) {

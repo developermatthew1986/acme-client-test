@@ -1,59 +1,207 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AcmeWidget Basket System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based shopping basket system with product management, delivery rules, and special offers.
 
-## About Laravel
+## About This Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project demonstrates a flexible basket/shopping cart system built with Laravel. It includes:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Product catalog management
+- Dynamic delivery charge calculation based on order value
+- Special offer system (e.g., Buy One Get Second Half Price)
+- Comprehensive basket calculation with breakdowns
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Prerequisites
 
-## Learning Laravel
+- PHP 7.4 or higher
+- Composer
+- MySQL/PostgreSQL or any Laravel-supported database
+- Node.js and npm (for frontend assets)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd acme-client-test
+   ```
 
-## Laravel Sponsors
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Install Node dependencies**
+   ```bash
+   npm install
+   ```
 
-### Premium Partners
+4. **Set up environment file**
+   ```bash
+   cp .env.example .env
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5. **Generate application key**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+6. **Configure your database**
+   
+   Edit the `.env` file and set your database credentials:
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Run database migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-## Code of Conduct
+8. **Seed the database with sample products**
+   ```bash
+   php artisan db:seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Running the Basket Demo
 
-## Security Vulnerabilities
+The project includes a demonstration command that showcases the basket system with various test cases.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Execute the Demo Command
+
+```bash
+php artisan basket:demo
+```
+
+### What the Demo Does
+
+The `basket:demo` command runs 4 test cases that demonstrate:
+
+1. **Product Calculations** - Adds products to the basket and calculates subtotals
+2. **Delivery Charges** - Applies delivery rules based on order value:
+   - Orders $90+ get **free delivery**
+   - Orders $50-$89.99 get **$2.95 delivery**
+   - Orders under $50 get **$4.95 delivery**
+3. **Special Offers** - Applies promotional discounts (e.g., Buy One Get Second Half Price on R01)
+4. **Total Calculation** - Computes the final total including all discounts and delivery
+
+### Expected Output
+
+When you run the command, you'll see output similar to:
+
+```
+=== Running Tests ===
+
+Test Case 1: B01, G01
+--------------------------------------------------
+
+  + Blue Widget (B01): $7.95
+  + Green Widget (G01): $24.95
+
+  Sub Total: $32.90
+
+  Delivery: $4.95
+
+  Expected Result : $37.85
+
+  Actual Result:   $37.85
+
+  ✓ PASS
+
+Test Case 2: R01, R01
+--------------------------------------------------
+
+  + Red Widget (R01): $32.95
+  + Red Widget (R01): $32.95
+
+  Sub Total: $65.90
+
+  Discount: -$16.48
+
+  Delivery: $4.95
+
+  Expected Result : $54.37
+
+  Actual Result:   $54.37
+
+  ✓ PASS
+
+Test Case 3: R01, G01
+--------------------------------------------------
+
+  + Red Widget (R01): $32.95
+  + Green Widget (G01): $24.95
+
+  Sub Total: $57.90
+
+  Delivery: $2.95
+
+  Expected Result : $60.85
+
+  Actual Result:   $60.85
+
+  ✓ PASS
+
+Test Case 4: B01, B01, R01, R01, R01
+--------------------------------------------------
+
+  + Blue Widget (B01): $7.95
+  + Blue Widget (B01): $7.95
+  + Red Widget (R01): $32.95
+  + Red Widget (R01): $32.95
+  + Red Widget (R01): $32.95
+
+  Sub Total: $114.75
+
+  Discount: -$16.48
+
+  Delivery: $0.00
+
+  Expected Result : $98.27
+
+  Actual Result:   $98.27
+
+  ✓ PASS
+```
+
+### Understanding the Test Cases
+
+| Test Case | Items | Subtotal | Discount | Delivery | Total |
+|-----------|-------|----------|----------|----------|-------|
+| 1 | B01, G01 | $32.90 | $0.00 | $4.95 | $37.85 |
+| 2 | R01, R01 | $65.90 | -$16.48 | $4.95 | $54.37 |
+| 3 | R01, G01 | $57.90 | $0.00 | $2.95 | $60.85 |
+| 4 | B01, B01, R01, R01, R01 | $114.75 | -$16.48 | $0.00 | $98.27 |
+
+**Note:** Test Case 2 and 4 demonstrate the "Buy One Get Second Half Price" offer on Red Widgets (R01).
+
+## Product Catalog
+
+The system includes three sample products:
+
+- **B01** - Blue Widget - $7.95
+- **G01** - Green Widget - $24.95
+- **R01** - Red Widget - $32.95
+
+## Development
+
+To start the development server:
+
+```bash
+php artisan serve
+```
+
+To compile frontend assets:
+
+```bash
+npm run dev
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
